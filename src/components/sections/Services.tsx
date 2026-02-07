@@ -69,7 +69,7 @@ const Services = () => {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Supporting the Full Governance Lifecycle
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground text-justify">
             From entity formation to continuous board advisory, we provide comprehensive governance solutions tailored to your organization's needs.
           </p>
         </div>
@@ -84,7 +84,7 @@ const Services = () => {
                 <service.icon className="text-primary group-hover:text-primary-foreground transition-colors duration-300" size={28} />
               </div>
               <h3 className="text-xl font-bold text-foreground mb-3">{service.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+              <p className="text-muted-foreground leading-relaxed text-justify">{service.description}</p>
             </div>
           ))}
         </div>
@@ -110,7 +110,7 @@ const Services = () => {
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <h4 className="font-bold text-lg mb-3 pr-8">{pillar.title}</h4>
-                <p className="text-primary-foreground/70 text-sm leading-relaxed">{pillar.description}</p>
+                <p className="text-primary-foreground/70 text-sm leading-relaxed text-justify">{pillar.description}</p>
               </div>
             ))}
           </div>

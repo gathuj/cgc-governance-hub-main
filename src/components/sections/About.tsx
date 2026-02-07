@@ -47,10 +47,10 @@ const About = () => {
             </h2>
             
             <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
+              <p className="text-justify">
                 The Chartered Governance Centre (CGC) is a professional services firm specializing in corporate governance, secretarial practice, compliance, and board advisory. Founded to meet the growing need for practical governance support, CGC helps organizations recognize that good governance drives performance, resilience, and stakeholder confidence, not just compliance.
               </p>
-              <p>
+              <p className="text-justify">
                 With expertise in law, governance, finance, risk, and compliance, we support clients holistically, focusing on boards, management, processes, and culture. Serving a range of clients, including listed and unlisted companies, state corporations, regulators, and NGOs, we go beyond compliance to design governance systems that align with strategy and risk.
               </p>
             </div>
@@ -83,7 +83,7 @@ const About = () => {
                     </div>
                     <h4 className="font-bold text-foreground">{value.title}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed text-justify">{value.description}</p>
                 </div>
               ))}
             </div>
