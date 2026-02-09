@@ -4,9 +4,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Clock, MapPin, Monitor, Building2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CalendarDays, Clock, MapPin, Monitor, Building2, Download, ExternalLink } from "lucide-react";
 import { useCSVData } from "@/hooks/useCSVData";
 import { Skeleton } from "@/components/ui/skeleton";
+import { generateICalEvent, downloadICalFile, getGoogleCalendarUrl } from "@/lib/ical";
 
 interface Event {
   id: string;
@@ -32,6 +34,25 @@ const getEventTypeColor = (type: Event["type"]) => {
 };
 
 const EventCard = ({ event }: { event: Event }) => {
+  const handleDownloadIcal = () => {
+    const ical = generateICalEvent({
+      title: event.title,
+      description: event.description,
+      date: event.date,
+      time: event.time,
+      location: event.location,
+    });
+    downloadICalFile(ical, event.title.replace(/\s+/g, "-").toLowerCase());
+  };
+
+  const googleUrl = getGoogleCalendarUrl({
+    title: event.title,
+    description: event.description,
+    date: event.date,
+    time: event.time,
+    location: event.location,
+  });
+
   return (
     <Card className="hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="pb-3">
@@ -43,14 +64,10 @@ const EventCard = ({ event }: { event: Event }) => {
                 {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
               </Badge>
               <Badge variant="outline" className="flex items-center gap-1">
-                {event.meetingOption === "online" ? (
-                  <Monitor size={12} />
-                ) : (
-                  <Building2 size={12} />
-                )}
+                {event.meetingOption === "online" ? <Monitor size={12} /> : <Building2 size={12} />}
                 {event.meetingOption.charAt(0).toUpperCase() + event.meetingOption.slice(1)}
               </Badge>
-              <Badge 
+              <Badge
                 variant={event.status === "upcoming" ? "default" : "secondary"}
                 className={event.status === "upcoming" ? "bg-green-600 text-white" : "bg-muted text-muted-foreground"}
               >
@@ -78,6 +95,19 @@ const EventCard = ({ event }: { event: Event }) => {
             <span>{event.location}</span>
           </div>
         </div>
+        {/* Export buttons */}
+        <div className="flex gap-2 pt-3 border-t border-border">
+          <Button variant="outline" size="sm" onClick={handleDownloadIcal} className="text-xs">
+            <Download size={14} className="mr-1" />
+            Download .ics
+          </Button>
+          <a href={googleUrl} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" size="sm" className="text-xs">
+              <ExternalLink size={14} className="mr-1" />
+              Add to Google Calendar
+            </Button>
+          </a>
+        </div>
       </CardContent>
     </Card>
   );
@@ -91,7 +121,7 @@ const Events = () => {
     return rows.map((row, index) => {
       const dateStr = row[3] || "";
       const dateParts = dateStr.split("-");
-      const eventDate = dateParts.length === 3 
+      const eventDate = dateParts.length === 3
         ? new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]))
         : new Date();
 
@@ -109,39 +139,26 @@ const Events = () => {
     });
   }, []);
 
-  const { data: events, loading, error } = useCSVData<Event>(
-    "/data/events.csv",
-    parseEvents
-  );
+  const { data: events, loading, error } = useCSVData<Event>("/data/events.csv", parseEvents);
 
-  // Filter by status field from CSV
   const upcomingEvents = events.filter((event) => event.status === "upcoming");
   const pastEvents = events.filter((event) => event.status === "past");
-
-  // Get dates that have events for calendar highlighting
   const eventDates = events.map((event) => event.date);
 
-  // Filter events for selected date
   const selectedDateEvents = selectedDate
     ? events.filter((event) => isSameDay(event.date, selectedDate))
     : [];
 
-  // Handle date selection - filter and switch tab if needed
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
     if (date) {
       const eventsOnDate = events.filter((event) => isSameDay(event.date, date));
       if (eventsOnDate.length > 0) {
-        // Switch to appropriate tab based on event status
         const hasUpcoming = eventsOnDate.some(e => e.status === "upcoming");
         const hasPast = eventsOnDate.some(e => e.status === "past");
-        if (hasUpcoming && !hasPast) {
-          setActiveTab("upcoming");
-        } else if (hasPast && !hasUpcoming) {
-          setActiveTab("past");
-        } else {
-          setActiveTab("all");
-        }
+        if (hasUpcoming && !hasPast) setActiveTab("upcoming");
+        else if (hasPast && !hasUpcoming) setActiveTab("past");
+        else setActiveTab("all");
       }
     }
   };
@@ -150,7 +167,7 @@ const Events = () => {
     return (
       <section id="events" className="section-padding bg-secondary">
         <div className="container-padding max-w-7xl mx-auto text-center">
-          <p className="text-muted-foreground">Unable to load events. Please check the events.csv file in public/data/</p>
+          <p className="text-muted-foreground">Unable to load events.</p>
         </div>
       </section>
     );
@@ -159,14 +176,9 @@ const Events = () => {
   return (
     <section id="events" className="section-padding bg-secondary">
       <div className="container-padding max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="text-center mb-12">
-          <span className="text-primary font-medium tracking-wider uppercase text-sm">
-            Stay Updated
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-            Events & Training
-          </h2>
+          <span className="text-primary font-medium tracking-wider uppercase text-sm">Stay Updated</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">Events & Training</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Join our governance training sessions, workshops, and seminars designed to enhance your professional capabilities.
           </p>
@@ -186,9 +198,7 @@ const Events = () => {
                   selected={selectedDate}
                   onSelect={handleDateSelect}
                   className="rounded-md border pointer-events-auto"
-                  modifiers={{
-                    hasEvent: eventDates,
-                  }}
+                  modifiers={{ hasEvent: eventDates }}
                   modifiersStyles={{
                     hasEvent: {
                       fontWeight: "bold",
@@ -201,25 +211,15 @@ const Events = () => {
                 {selectedDate && (
                   <div className="mt-4 pt-4 border-t">
                     <h4 className="font-semibold text-sm mb-2">
-                      Events on {selectedDate.toLocaleDateString("en-GB", { 
-                        weekday: "long", 
-                        month: "long", 
-                        day: "numeric" 
-                      })}
+                      Events on {selectedDate.toLocaleDateString("en-GB", { weekday: "long", month: "long", day: "numeric" })}
                     </h4>
                     {selectedDateEvents.length > 0 ? (
                       <div className="space-y-2">
                         {selectedDateEvents.map((event) => (
-                          <div 
-                            key={event.id} 
-                            className="text-sm p-3 rounded-lg bg-primary/10 border-l-4 border-primary"
-                          >
+                          <div key={event.id} className="text-sm p-3 rounded-lg bg-primary/10 border-l-4 border-primary">
                             <p className="font-medium">{event.title}</p>
                             <p className="text-muted-foreground text-xs mt-1">{event.time}</p>
-                            <Badge 
-                              variant="outline" 
-                              className="mt-2 text-xs"
-                            >
+                            <Badge variant="outline" className="mt-2 text-xs">
                               {event.status === "upcoming" ? "Upcoming" : "Past"}
                             </Badge>
                           </div>
@@ -240,19 +240,13 @@ const Events = () => {
               <div>
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold">
-                    Events on {selectedDate?.toLocaleDateString("en-GB", {
-                      weekday: "long",
-                      month: "long",
-                      day: "numeric"
-                    })}
+                    Events on {selectedDate?.toLocaleDateString("en-GB", { weekday: "long", month: "long", day: "numeric" })}
                   </h3>
                 </div>
                 <div className="space-y-4">
-                  {selectedDateEvents
-                    .sort((a, b) => a.date.getTime() - b.date.getTime())
-                    .map((event) => (
-                      <EventCard key={event.id} event={event} />
-                    ))}
+                  {selectedDateEvents.sort((a, b) => a.date.getTime() - b.date.getTime()).map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
                 </div>
               </div>
             ) : (
@@ -265,40 +259,18 @@ const Events = () => {
 
                 {loading ? (
                   <div className="space-y-4">
-                    {[1, 2, 3].map((i) => (
-                      <Skeleton key={i} className="h-48" />
-                    ))}
+                    {[1, 2, 3].map((i) => <Skeleton key={i} className="h-48" />)}
                   </div>
                 ) : (
                   <>
                     <TabsContent value="all" className="space-y-4">
-                      {events.length > 0 ? (
-                        events
-                          .sort((a, b) => a.date.getTime() - b.date.getTime())
-                          .map((event) => <EventCard key={event.id} event={event} />)
-                      ) : (
-                        <p className="text-center text-muted-foreground py-8">No events scheduled.</p>
-                      )}
+                      {events.length > 0 ? events.sort((a, b) => a.date.getTime() - b.date.getTime()).map((event) => <EventCard key={event.id} event={event} />) : <p className="text-center text-muted-foreground py-8">No events scheduled.</p>}
                     </TabsContent>
-
                     <TabsContent value="upcoming" className="space-y-4">
-                      {upcomingEvents.length > 0 ? (
-                        upcomingEvents
-                          .sort((a, b) => a.date.getTime() - b.date.getTime())
-                          .map((event) => <EventCard key={event.id} event={event} />)
-                      ) : (
-                        <p className="text-center text-muted-foreground py-8">No upcoming events scheduled.</p>
-                      )}
+                      {upcomingEvents.length > 0 ? upcomingEvents.sort((a, b) => a.date.getTime() - b.date.getTime()).map((event) => <EventCard key={event.id} event={event} />) : <p className="text-center text-muted-foreground py-8">No upcoming events scheduled.</p>}
                     </TabsContent>
-
                     <TabsContent value="past" className="space-y-4">
-                      {pastEvents.length > 0 ? (
-                        pastEvents
-                          .sort((a, b) => b.date.getTime() - a.date.getTime())
-                          .map((event) => <EventCard key={event.id} event={event} />)
-                      ) : (
-                        <p className="text-center text-muted-foreground py-8">No past events.</p>
-                      )}
+                      {pastEvents.length > 0 ? pastEvents.sort((a, b) => b.date.getTime() - a.date.getTime()).map((event) => <EventCard key={event.id} event={event} />) : <p className="text-center text-muted-foreground py-8">No past events.</p>}
                     </TabsContent>
                   </>
                 )}
@@ -314,7 +286,7 @@ const Events = () => {
             Upload your events to <code className="bg-muted px-2 py-1 rounded">public/data/events.csv</code> in the following format:
           </p>
           <code className="block text-xs bg-muted p-3 rounded overflow-x-auto">
-            Name,Type,Description,Date,Time,Location,MeetingOption,Status<br/>
+            Name,Type,Description,Date,Time,Location,MeetingOption,Status<br />
             Corporate Governance Masterclass,Training,An intensive one-day masterclass...,2026-03-15,9:00 AM - 4:00 PM,Flamingo Towers Nairobi,Physical,Upcoming
           </code>
           <p className="text-xs text-muted-foreground mt-2">
