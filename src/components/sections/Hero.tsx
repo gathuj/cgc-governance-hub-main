@@ -5,21 +5,25 @@ import ConsultationForm from "@/components/forms/ConsultationForm";
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const specialties = [
-    "Corporate Secretarial Practice",
-    "Compliance",
-    "Board Advisory",
-  ];
+  const totalSlides = 3;
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
-    }, 8000);
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
   const goToSlide = (index: number) => setCurrentSlide(index);
+
+  const slideClass = (index: number) =>
+    `absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-in-out ${
+      currentSlide === index
+        ? "opacity-100 translate-x-0"
+        : currentSlide > index
+        ? "opacity-0 -translate-x-full pointer-events-none"
+        : "opacity-0 translate-x-full pointer-events-none"
+    }`;
 
   return (
     <section className="relative min-h-screen flex items-center bg-foreground overflow-hidden">
@@ -35,151 +39,114 @@ const Hero = () => {
 
       <div className="container-padding max-w-7xl mx-auto relative z-10 pt-20 w-full">
         <div className="relative min-h-[600px] flex items-center justify-center">
-          {/* Slide 1 - Main Content */}
-          <div
-            className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-in-out ${
-              currentSlide === 0
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 -translate-x-full pointer-events-none'
-            }`}
-          >
-            <div className="text-primary-foreground text-center max-w-5xl mx-auto px-4">
+
+          {/* Slide 1 – What We Do */}
+          <div className={slideClass(0)}>
+            <div className="text-primary-foreground text-center max-w-4xl mx-auto px-4">
               <p className="text-primary font-bold tracking-widest uppercase text-sm mb-6">
                 Chartered Governance Centre
               </p>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-6">
-                Empowering Bonds,{" "}
-                <span className="text-primary">Strengthening</span>{" "}
-                Institutions
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8">
+                What Do <span className="text-primary">We Do?</span>
               </h1>
-
-              <p className="text-lg sm:text-xl text-primary-foreground/80 mb-8 leading-relaxed max-w-3xl mx-auto">
-                Excellence in corporate governance, secretarial practice, regulatory compliance and strategic board advisory for organizations that demand results.
+              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto">
+                We provide expert advisory, specialized training, and comprehensive compliance support in <strong className="text-primary-foreground">corporate governance</strong>, <strong className="text-primary-foreground">secretarial practice</strong>, and <strong className="text-primary-foreground">board advisory</strong>—helping organizations build governance systems that drive performance and resilience.
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#services">
+              <ConsultationForm
+                trigger={
                   <Button variant="hero" size="xl" className="group">
-                    Explore Our Services
+                    Schedule Consultation
                     <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                   </Button>
-                </a>
-                <ConsultationForm
-                  trigger={
-                    <Button variant="heroWhite" size="xl" className="group">
-                      Schedule Consultation
-                      <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-                    </Button>
-                  }
-                />
-              </div>
-
-              {/* Specialties */}
-              <div className="mt-12">
-                <p className="text-primary font-bold tracking-wider text-sm mb-6">OUR SPECIALITY</p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  {specialties.map((specialty, index) => (
-                    <span
-                      key={index}
-                      className="px-7 py-3.5 bg-gradient-to-r from-primary/30 to-primary/10 border-2 border-primary/50 rounded-full text-lg font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:border-primary hover:scale-105 transition-all duration-300"
-                    >
-                      {specialty}
-                    </span>
-                  ))}
-                </div>
-              </div>
+                }
+              />
             </div>
           </div>
 
-          {/* Slide 2 - Mission & Vision */}
-          <div
-            className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-in-out ${
-              currentSlide === 1
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 translate-x-full pointer-events-none'
-            }`}
-          >
-            <div className="text-primary-foreground text-center max-w-6xl mx-auto px-4 w-full">
-              <div className="grid md:grid-cols-2 gap-12 mb-12">
-                {/* Mission */}
-                <div className="bg-background/10 backdrop-blur-sm rounded-xl p-10 border border-primary/30 text-left">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Target className="text-primary-foreground" size={32} />
-                    </div>
-                    <h2 className="font-bold text-primary text-3xl">OUR MISSION</h2>
-                  </div>
-                  <p className="text-primary-foreground/90 text-lg leading-relaxed">
-                    To provide specialized training, expert advisory services and comprehensive compliance support that enhances board performance, strengthens governance structures, mitigates legal and compliance risk, and protects stakeholder value.
-                  </p>
-                </div>
-
-                {/* Vision */}
-                <div className="bg-background/10 backdrop-blur-sm rounded-xl p-10 border border-primary/30 text-left">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Eye className="text-primary-foreground" size={32} />
-                    </div>
-                    <h2 className="font-bold text-primary text-3xl">OUR VISION</h2>
-                  </div>
-                  <p className="text-primary-foreground/90 text-lg leading-relaxed">
-                    To be the leading authority and preferred partner in governance, corporate secretarial and board advisory services in Africa, empowering public and private institutions to achieve sustainable success through exemplary governance practices.
-                  </p>
-                </div>
-              </div>
-
-              {/* Specialties on Slide 2 */}
-              <div className="mb-12">
-                <p className="text-primary font-bold tracking-wider text-sm mb-6">OUR SPECIALITY</p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  {specialties.map((specialty, index) => (
-                    <span
-                      key={index}
-                      className="px-7 py-3.5 bg-gradient-to-r from-primary/30 to-primary/10 border-2 border-primary/50 rounded-full text-lg font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:border-primary hover:scale-105 transition-all duration-300"
-                    >
-                      {specialty}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTA Buttons on Slide 2 */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#services">
+          {/* Slide 2 – Who It's For */}
+          <div className={slideClass(1)}>
+            <div className="text-primary-foreground text-center max-w-4xl mx-auto px-4">
+              <p className="text-primary font-bold tracking-widest uppercase text-sm mb-6">
+                Chartered Governance Centre
+              </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8">
+                Who Is It <span className="text-primary">For?</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto">
+                Our services are designed for <strong className="text-primary-foreground">boards of directors</strong>, <strong className="text-primary-foreground">company secretaries</strong>, <strong className="text-primary-foreground">senior leadership</strong>, and governance professionals across listed and unlisted companies, state corporations, regulators, and NGOs.
+              </p>
+              <ConsultationForm
+                trigger={
                   <Button variant="hero" size="xl" className="group">
-                    Explore Our Services
+                    Schedule Consultation
                     <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                   </Button>
-                </a>
-                <ConsultationForm
-                  trigger={
-                    <Button variant="heroWhite" size="xl" className="group">
-                      Schedule Consultation
-                      <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-                    </Button>
-                  }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
 
-          {/* Slide Indicators - Fixed at bottom */}
+          {/* Slide 3 – Why It Matters */}
+          <div className={slideClass(2)}>
+            <div className="text-primary-foreground text-center max-w-4xl mx-auto px-4">
+              <p className="text-primary font-bold tracking-widest uppercase text-sm mb-6">
+                Chartered Governance Centre
+              </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8">
+                Why It <span className="text-primary">Matters</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto">
+                Strong governance drives <strong className="text-primary-foreground">accountability</strong>, <strong className="text-primary-foreground">regulatory compliance</strong>, and <strong className="text-primary-foreground">board effectiveness</strong>—mitigating legal risk and protecting stakeholder value for sustainable institutional success.
+              </p>
+              <ConsultationForm
+                trigger={
+                  <Button variant="hero" size="xl" className="group">
+                    Schedule Consultation
+                    <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+                  </Button>
+                }
+              />
+            </div>
+          </div>
+
+          {/* Slide Indicators */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-20">
-            <button
-              onClick={() => goToSlide(0)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                currentSlide === 0 ? 'bg-primary w-8' : 'bg-primary-foreground/30 hover:bg-primary-foreground/50'
-              }`}
-              aria-label="Go to slide 1"
-            />
-            <button
-              onClick={() => goToSlide(1)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                currentSlide === 1 ? 'bg-primary w-8' : 'bg-primary-foreground/30 hover:bg-primary-foreground/50'
-              }`}
-              aria-label="Go to slide 2"
-            />
+            {[0, 1, 2].map((i) => (
+              <button
+                key={i}
+                onClick={() => goToSlide(i)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  currentSlide === i ? "bg-primary w-8" : "bg-primary-foreground/30 hover:bg-primary-foreground/50"
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Short Vision & Mission */}
+        <div className="grid md:grid-cols-2 gap-8 pb-16 -mt-4">
+          <div className="bg-background/10 backdrop-blur-sm rounded-xl p-8 border border-primary/20 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                <Eye className="text-primary-foreground" size={24} />
+              </div>
+              <h3 className="font-bold text-primary text-xl uppercase tracking-wider">Our Vision</h3>
+            </div>
+            <p className="text-primary-foreground/85 leading-relaxed">
+              To be Africa's leading authority and preferred partner in governance, corporate secretarial, and board advisory services.
+            </p>
+          </div>
+          <div className="bg-background/10 backdrop-blur-sm rounded-xl p-8 border border-primary/20 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                <Target className="text-primary-foreground" size={24} />
+              </div>
+              <h3 className="font-bold text-primary text-xl uppercase tracking-wider">Our Mission</h3>
+            </div>
+            <p className="text-primary-foreground/85 leading-relaxed">
+              To strengthen governance by enhancing board performance, reinforcing compliance, and protecting stakeholder value across public and private institutions.
+            </p>
           </div>
         </div>
       </div>

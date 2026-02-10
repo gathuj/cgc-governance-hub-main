@@ -1,5 +1,4 @@
-import { CheckCircle } from "lucide-react";
-import { Shield, Eye, Zap, Award } from "lucide-react";
+import { CheckCircle, Shield, Eye, Zap, Award, Target } from "lucide-react";
 
 const About = () => {
   const valueToClients = [
@@ -87,6 +86,32 @@ const About = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Full Vision & Mission */}
+        <div className="grid md:grid-cols-2 gap-8 mt-16">
+          <div className="bg-secondary rounded-xl p-8 border-l-4 border-primary">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Eye className="text-primary" size={24} />
+              </div>
+              <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
+            </div>
+            <p className="text-muted-foreground leading-relaxed text-justify">
+              To be the leading authority and preferred partner in governance, corporate secretarial, and board advisory services in Africa—empowering public and private institutions to achieve sustainable success through exemplary governance practices.
+            </p>
+          </div>
+          <div className="bg-secondary rounded-xl p-8 border-l-4 border-primary">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Target className="text-primary" size={24} />
+              </div>
+              <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
+            </div>
+            <p className="text-muted-foreground leading-relaxed text-justify">
+              To provide specialized training, expert advisory services, and comprehensive compliance support that enhance board effectiveness, strengthen governance structures, mitigate legal and regulatory risk, and safeguard stakeholder value.
+            </p>
           </div>
         </div>
       </div>
