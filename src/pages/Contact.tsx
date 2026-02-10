@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollIndicator from "@/components/ScrollIndicator";
-import { Mail, Phone, MapPin, Clock, Globe, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import ConsultationForm from "@/components/forms/ConsultationForm";
 
 const ContactPage = () => {
@@ -12,9 +12,9 @@ const ContactPage = () => {
         <section className="section-padding bg-background">
           <div className="container-padding max-w-7xl mx-auto">
             {/* Section Header */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-10">
               <span className="text-primary font-medium tracking-wider uppercase text-sm">
-                Get in Touch
+                Our Offices
               </span>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
                 Contact Us
@@ -24,96 +24,111 @@ const ContactPage = () => {
               </p>
             </div>
 
-            {/* Two Office Locations */}
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Three Cards */}
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
               {/* Kenya Office */}
-              <div className="bg-secondary rounded-2xl p-8 border border-border">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <div className="bg-secondary rounded-xl p-6 border border-border flex flex-col">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shrink-0">
                     <MapPin size={20} className="text-primary-foreground" />
                   </div>
                   <div>
-                    <h2 className="font-bold text-xl">Kenya Office</h2>
-                    <p className="text-muted-foreground text-sm">Headquarters</p>
+                    <h2 className="font-bold text-lg leading-tight">Kenya Office</h2>
+                    <p className="text-xs text-muted-foreground">Headquarters</p>
                   </div>
                 </div>
-
-                <div className="space-y-4">
+                <div className="space-y-3 text-sm flex-1">
                   <div>
-                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Physical Address</p>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-0.5">Physical Address</p>
                     <p className="font-medium">8th Floor, Flamingo Towers, Mara Road, Nairobi</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Postal Address</p>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-0.5">Postal Address</p>
                     <p className="font-medium">P.O. Box 71433-00610, Nairobi</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone size={14} className="text-primary" />
+                    <Phone size={14} className="text-primary shrink-0" />
                     <a href="tel:+254722224005" className="font-medium hover:text-primary transition-colors">+254 722 224 005</a>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MessageCircle size={14} className="text-primary" />
-                    <a href="https://wa.me/254707112154" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-primary transition-colors">+254 707 112 154 (WhatsApp)</a>
+                    <MessageCircle size={14} className="text-primary shrink-0" />
+                    <a href="https://wa.me/254707112154" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-primary transition-colors">+254 707 112 154</a>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Mail size={14} className="text-primary" />
+                    <Mail size={14} className="text-primary shrink-0" />
                     <a href="mailto:info@cgc.co.ke" className="font-medium hover:text-primary transition-colors">info@cgc.co.ke</a>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Mail size={14} className="text-primary" />
+                    <Mail size={14} className="text-primary shrink-0" />
                     <a href="mailto:training@cgc.co.ke" className="font-medium hover:text-primary transition-colors">training@cgc.co.ke</a>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Globe size={14} className="text-primary" />
-                    <a href="https://www.cgc.co.ke" className="font-medium hover:text-primary transition-colors">www.cgc.co.ke</a>
-                  </div>
-                  <div className="pt-2 border-t border-border">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock size={14} className="text-primary" />
-                      <span className="text-sm font-semibold">Working Hours</span>
-                    </div>
-                    <div className="text-sm space-y-1 pl-6">
-                      <p><span className="text-muted-foreground">Mon – Fri:</span> 8:00 AM – 5:00 PM</p>
-                      <p><span className="text-muted-foreground">Saturday:</span> 9:00 AM – 1:00 PM</p>
-                      <p><span className="text-muted-foreground">Sunday:</span> <span className="text-primary">Closed</span></p>
-                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Singapore Office */}
-              <div className="bg-secondary rounded-2xl p-8 border border-border">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <div className="bg-secondary rounded-xl p-6 border border-border flex flex-col">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shrink-0">
                     <MapPin size={20} className="text-primary-foreground" />
                   </div>
                   <div>
-                    <h2 className="font-bold text-xl">Singapore Office</h2>
-                    <p className="text-muted-foreground text-sm">Asia-Pacific</p>
+                    <h2 className="font-bold text-lg leading-tight">Singapore Office</h2>
+                    <p className="text-xs text-muted-foreground">Asia-Pacific</p>
                   </div>
                 </div>
-
-                <div className="space-y-4">
+                <div className="space-y-3 text-sm flex-1">
                   <div>
-                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Physical Address</p>
-                    <p className="font-medium">1 Raffles Place, #20-61, Tower 2, Singapore 048616</p>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-0.5">Physical Address</p>
+                    <p className="font-medium">Midview City, #05-125, Blk 26, Sin Ming Lane, Singapore 573960</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone size={14} className="text-primary" />
+                    <Phone size={14} className="text-primary shrink-0" />
                     <a href="tel:+6531234567" className="font-medium hover:text-primary transition-colors">+65 3123 4567</a>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Mail size={14} className="text-primary" />
+                    <Mail size={14} className="text-primary shrink-0" />
                     <a href="mailto:singapore@cgc.co.ke" className="font-medium hover:text-primary transition-colors">singapore@cgc.co.ke</a>
                   </div>
-                  <div className="pt-2 border-t border-border">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock size={14} className="text-primary" />
-                      <span className="text-sm font-semibold">Working Hours</span>
+                </div>
+              </div>
+
+              {/* Working Hours */}
+              <div className="bg-secondary rounded-xl p-6 border border-border flex flex-col">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shrink-0">
+                    <Clock size={20} className="text-primary-foreground" />
+                  </div>
+                  <h2 className="font-bold text-lg leading-tight">Working Hours</h2>
+                </div>
+                <div className="space-y-4 text-sm flex-1">
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Kenya</p>
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Mon – Fri:</span>
+                        <span className="font-medium">8:00 AM – 5:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Saturday:</span>
+                        <span className="font-medium">9:00 AM – 1:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Sun & Holidays:</span>
+                        <span className="font-medium text-primary">Closed</span>
+                      </div>
                     </div>
-                    <div className="text-sm space-y-1 pl-6">
-                      <p><span className="text-muted-foreground">Mon – Fri:</span> 9:00 AM – 6:00 PM (SGT)</p>
-                      <p><span className="text-muted-foreground">Sat – Sun:</span> <span className="text-primary">Closed</span></p>
+                  </div>
+                  <div className="border-t border-border pt-3">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Singapore</p>
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Mon – Fri:</span>
+                        <span className="font-medium">9:00 AM – 6:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Sat – Sun:</span>
+                        <span className="font-medium text-primary">Closed</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -127,12 +142,12 @@ const ContactPage = () => {
                   backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
                 }} />
               </div>
-              <div className="relative z-10 px-8 py-16 lg:px-16 text-center">
-                <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
+              <div className="relative z-10 px-8 py-12 lg:px-16 text-center">
+                <h2 className="text-2xl sm:text-3xl font-bold text-primary-foreground mb-3">
                   Ready to Strengthen Your Governance?
                 </h2>
-                <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
-                  Schedule a consultation with our experts today.
+                <p className="text-primary-foreground/90 mb-6 max-w-xl mx-auto">
+                  Get in touch to schedule a consultation with our experts.
                 </p>
                 <ConsultationForm />
               </div>
