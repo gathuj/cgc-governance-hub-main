@@ -15,14 +15,13 @@ const Header = () => {
     { href: "/team", label: "Team" },
     { href: isHome ? "#events" : "/#events", label: "Events" },
     { href: isHome ? "#gallery" : "/#gallery", label: "Gallery" },
-    { href: "/contact", label: "Contact" },
+    { href: isHome ? "#contact" : "/#contact", label: "Contact" },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container-padding max-w-7xl mx-auto">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <a href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-lg">C</span>
@@ -33,7 +32,6 @@ const Header = () => {
             </div>
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
@@ -44,14 +42,13 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <a href="/contact">
+            <a href="/#contact">
               <Button variant="hero" size="default">
                 Get in Touch
               </Button>
             </a>
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -61,7 +58,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <nav className="lg:hidden py-6 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-4">
@@ -75,7 +71,7 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <a href="/contact" onClick={() => setIsMenuOpen(false)}>
+              <a href="/#contact" onClick={() => setIsMenuOpen(false)}>
                 <Button variant="hero" size="lg" className="mt-4">
                   Get in Touch
                 </Button>

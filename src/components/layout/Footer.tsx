@@ -27,7 +27,7 @@ const Footer = () => {
       links: [
         { label: "Gallery", href: "/#gallery" },
         { label: "Training Calendar", href: "/#events" },
-        { label: "Contact Us", href: "/contact" },
+        { label: "Contact Us", href: "/#contact" },
       ],
     },
   ];
@@ -36,7 +36,6 @@ const Footer = () => {
     <footer className="bg-foreground text-primary-foreground">
       <div className="container-padding max-w-7xl mx-auto">
         <div className="py-16 grid md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand */}
           <div className="lg:col-span-2">
             <a href="/" className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-primary rounded flex items-center justify-center">
@@ -54,7 +53,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Links */}
           {footerLinks.map((group, index) => (
             <div key={index}>
               <h4 className="font-bold text-primary-foreground mb-4">{group.title}</h4>
