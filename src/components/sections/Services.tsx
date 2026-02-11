@@ -105,11 +105,8 @@ const Services = () => {
                 key={index}
                 className="bg-foreground text-primary-foreground rounded-lg p-6 relative overflow-hidden group"
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
-                <span className="text-primary font-bold text-4xl opacity-20 absolute top-2 right-4">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <h4 className="font-bold text-lg mb-3 pr-8">{pillar.title}</h4>
+              <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
+                <h4 className="font-bold text-lg mb-3">{pillar.title}</h4>
                 <p className="text-primary-foreground/70 text-sm leading-relaxed text-justify">{pillar.description}</p>
               </div>
             ))}

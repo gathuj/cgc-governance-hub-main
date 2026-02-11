@@ -9,18 +9,8 @@ import { CalendarDays, Clock, MapPin, Monitor, Building2, Download, ExternalLink
 import { useCSVData } from "@/hooks/useCSVData";
 import { Skeleton } from "@/components/ui/skeleton";
 import { generateICalEvent, downloadICalFile, getGoogleCalendarUrl } from "@/lib/ical";
-
-interface Event {
-  id: string;
-  title: string;
-  date: Date;
-  time: string;
-  location: string;
-  description: string;
-  type: "training" | "workshop";
-  meetingOption: "online" | "physical";
-  status: "upcoming" | "past";
-}
+import EventRegistrationForm from "@/components/events/EventRegistrationForm";
+import type { Event } from "@/types/models";
 
 const getEventTypeColor = (type: Event["type"]) => {
   switch (type) {
@@ -34,6 +24,8 @@ const getEventTypeColor = (type: Event["type"]) => {
 };
 
 const EventCard = ({ event }: { event: Event }) => {
+  const [regOpen, setRegOpen] = useState(false);
+
   const handleDownloadIcal = () => {
     const ical = generateICalEvent({
       title: event.title,
@@ -54,62 +46,80 @@ const EventCard = ({ event }: { event: Event }) => {
   });
 
   return (
-    <Card className="hover:shadow-lg transition-shadow duration-300">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <CardTitle className="text-lg mb-2">{event.title}</CardTitle>
-            <div className="flex gap-2 flex-wrap">
-              <Badge className={getEventTypeColor(event.type)} variant="secondary">
-                {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-              </Badge>
-              <Badge variant="outline" className="flex items-center gap-1">
-                {event.meetingOption === "online" ? <Monitor size={12} /> : <Building2 size={12} />}
-                {event.meetingOption.charAt(0).toUpperCase() + event.meetingOption.slice(1)}
-              </Badge>
-              <Badge
-                variant={event.status === "upcoming" ? "default" : "secondary"}
-                className={event.status === "upcoming" ? "bg-green-600 text-white" : "bg-muted text-muted-foreground"}
-              >
-                {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
-              </Badge>
+    <>
+      <Card className="hover:shadow-lg transition-shadow duration-300">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <CardTitle className="text-lg mb-2">{event.title}</CardTitle>
+              <div className="flex gap-2 flex-wrap">
+                <Badge className={getEventTypeColor(event.type)} variant="secondary">
+                  {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+                </Badge>
+                <Badge variant="outline" className="flex items-center gap-1">
+                  {event.meetingOption === "online" ? <Monitor size={12} /> : <Building2 size={12} />}
+                  {event.meetingOption.charAt(0).toUpperCase() + event.meetingOption.slice(1)}
+                </Badge>
+                <Badge
+                  variant={event.status === "upcoming" ? "default" : "secondary"}
+                  className={event.status === "upcoming" ? "bg-green-600 text-white" : "bg-muted text-muted-foreground"}
+                >
+                  {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+                </Badge>
+                {/* Price Badge */}
+                <Badge
+                  className={event.price === "free" 
+                    ? "bg-emerald-100 text-emerald-800 border-emerald-300" 
+                    : "bg-amber-100 text-amber-800 border-amber-300"}
+                  variant="outline"
+                >
+                  {event.price === "free" ? "Free" : `KES ${typeof event.price === "number" ? event.price.toLocaleString() : event.price}`}
+                </Badge>
+              </div>
             </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <CardDescription className="text-sm leading-relaxed">
-          {event.description}
-        </CardDescription>
-        <div className="space-y-2 pt-2">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <CalendarDays size={16} className="text-primary" />
-            <span>{event.date.toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <CardDescription className="text-sm leading-relaxed">
+            {event.description}
+          </CardDescription>
+          <div className="space-y-2 pt-2">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <CalendarDays size={16} className="text-primary" />
+              <span>{event.date.toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Clock size={16} className="text-primary" />
+              <span>{event.time}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin size={16} className="text-primary" />
+              <span>{event.location}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Clock size={16} className="text-primary" />
-            <span>{event.time}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin size={16} className="text-primary" />
-            <span>{event.location}</span>
-          </div>
-        </div>
-        {/* Export buttons */}
-        <div className="flex gap-2 pt-3 border-t border-border">
-          <Button variant="outline" size="sm" onClick={handleDownloadIcal} className="text-xs">
-            <Download size={14} className="mr-1" />
-            Download .ics
-          </Button>
-          <a href={googleUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="sm" className="text-xs">
-              <ExternalLink size={14} className="mr-1" />
-              Add to Google Calendar
+          {/* Actions */}
+          <div className="flex flex-wrap gap-2 pt-3 border-t border-border">
+            {event.status === "upcoming" && (
+              <Button size="sm" onClick={() => setRegOpen(true)}>
+                Book Now
+              </Button>
+            )}
+            <Button variant="outline" size="sm" onClick={handleDownloadIcal} className="text-xs">
+              <Download size={14} className="mr-1" />
+              Download .ics
             </Button>
-          </a>
-        </div>
-      </CardContent>
-    </Card>
+            <a href={googleUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" size="sm" className="text-xs">
+                <ExternalLink size={14} className="mr-1" />
+                Add to Google Calendar
+              </Button>
+            </a>
+          </div>
+        </CardContent>
+      </Card>
+
+      <EventRegistrationForm event={event} open={regOpen} onOpenChange={setRegOpen} />
+    </>
   );
 };
 
@@ -125,6 +135,9 @@ const Events = () => {
         ? new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]))
         : new Date();
 
+      const priceRaw = (row[8] || "free").trim().toLowerCase();
+      const price: "free" | number = priceRaw === "free" ? "free" : parseInt(priceRaw) || 0;
+
       return {
         id: String(index + 1),
         title: row[0] || "",
@@ -135,6 +148,9 @@ const Events = () => {
         location: row[5] || "",
         meetingOption: (row[6]?.toLowerCase() || "physical") as "online" | "physical",
         status: (row[7]?.toLowerCase() || "upcoming") as "upcoming" | "past",
+        price,
+        meetingLink: row[9] || undefined,
+        meetingId: row[10] || undefined,
       };
     });
   }, []);
@@ -219,9 +235,14 @@ const Events = () => {
                           <div key={event.id} className="text-sm p-3 rounded-lg bg-primary/10 border-l-4 border-primary">
                             <p className="font-medium">{event.title}</p>
                             <p className="text-muted-foreground text-xs mt-1">{event.time}</p>
-                            <Badge variant="outline" className="mt-2 text-xs">
-                              {event.status === "upcoming" ? "Upcoming" : "Past"}
-                            </Badge>
+                            <div className="flex gap-1 mt-2">
+                              <Badge variant="outline" className="text-xs">
+                                {event.status === "upcoming" ? "Upcoming" : "Past"}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs">
+                                {event.price === "free" ? "Free" : `KES ${typeof event.price === "number" ? event.price.toLocaleString() : event.price}`}
+                              </Badge>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -277,21 +298,6 @@ const Events = () => {
               </Tabs>
             )}
           </div>
-        </div>
-
-        {/* CSV Format Guide */}
-        <div className="mt-12 p-6 bg-background rounded-lg border border-border">
-          <h3 className="font-bold text-foreground mb-3">Event File Format</h3>
-          <p className="text-sm text-muted-foreground mb-2">
-            Upload your events to <code className="bg-muted px-2 py-1 rounded">public/data/events.csv</code> in the following format:
-          </p>
-          <code className="block text-xs bg-muted p-3 rounded overflow-x-auto">
-            Name,Type,Description,Date,Time,Location,MeetingOption,Status<br />
-            Corporate Governance Masterclass,Training,An intensive one-day masterclass...,2026-03-15,9:00 AM - 4:00 PM,Flamingo Towers Nairobi,Physical,Upcoming
-          </code>
-          <p className="text-xs text-muted-foreground mt-2">
-            <strong>Type:</strong> Workshop or Training | <strong>MeetingOption:</strong> Online or Physical | <strong>Status:</strong> Upcoming or Past | <strong>Date format:</strong> YYYY-MM-DD
-          </p>
         </div>
       </div>
     </section>

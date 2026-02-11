@@ -91,7 +91,7 @@ const About = () => {
 
         {/* Full Vision & Mission */}
         <div className="grid md:grid-cols-2 gap-8 mt-16">
-          <div className="bg-secondary rounded-xl p-8 border-l-4 border-primary">
+          <div className="bg-secondary rounded-xl p-8 border-l-4 border-primary hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-default">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
                 <Eye className="text-primary" size={24} />
@@ -102,7 +102,7 @@ const About = () => {
               To be the leading authority and preferred partner in governance, corporate secretarial, and board advisory services in Africa—empowering public and private institutions to achieve sustainable success through exemplary governance practices.
             </p>
           </div>
-          <div className="bg-secondary rounded-xl p-8 border-l-4 border-primary">
+          <div className="bg-secondary rounded-xl p-8 border-l-4 border-primary hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-default">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
                 <Target className="text-primary" size={24} />

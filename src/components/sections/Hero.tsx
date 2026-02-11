@@ -49,7 +49,7 @@ const Hero = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8">
                 What Do <span className="text-primary">We Do?</span>
               </h1>
-              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto text-justify">
                 We provide expert advisory, specialized training, and comprehensive compliance support in <strong className="text-primary-foreground">corporate governance</strong>, <strong className="text-primary-foreground">secretarial practice</strong>, and <strong className="text-primary-foreground">board advisory</strong>—helping organizations build governance systems that drive performance and resilience.
               </p>
               <ConsultationForm
@@ -72,7 +72,7 @@ const Hero = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8">
                 Who Is It <span className="text-primary">For?</span>
               </h1>
-              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto text-justify">
                 Our services are designed for <strong className="text-primary-foreground">boards of directors</strong>, <strong className="text-primary-foreground">company secretaries</strong>, <strong className="text-primary-foreground">senior leadership</strong>, and governance professionals across listed and unlisted companies, state corporations, regulators, and NGOs.
               </p>
               <ConsultationForm
@@ -95,7 +95,7 @@ const Hero = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8">
                 Why It <span className="text-primary">Matters</span>
               </h1>
-              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-primary-foreground/85 mb-10 leading-relaxed max-w-3xl mx-auto text-justify">
                 Strong governance drives <strong className="text-primary-foreground">accountability</strong>, <strong className="text-primary-foreground">regulatory compliance</strong>, and <strong className="text-primary-foreground">board effectiveness</strong>—mitigating legal risk and protecting stakeholder value for sustainable institutional success.
               </p>
               <ConsultationForm
